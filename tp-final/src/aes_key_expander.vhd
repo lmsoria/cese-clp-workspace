@@ -5,8 +5,8 @@ use IEEE.numeric_std.all;
 entity aes_key_expander is
     port
     (
-        clk_in : in std_logic;
-        rst_in : in std_logic;
+        clk_in : in std_logic; -- Will I need this?
+        rst_in : in std_logic; -- Not implemented. TBD?
         key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
         round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
     );
@@ -38,7 +38,8 @@ architecture aes_key_expander_arch of aes_key_expander is
 
 begin
     -- Descriptive section
-    -- Instantiate g_function_word DUTs and connect them
+
+    -- 01. Instantiate g_function_word DUTs and connect them
     G_FUNCTIONS: for i in 0 to N_ROUNDS-1 generate
     G_FUNCTION_i: g_function_word
         generic map
@@ -52,28 +53,31 @@ begin
         );
     end generate;
 
-    expand_key : process(clk_in)
-    -- declarative part
-    begin
-        -- Serial instructions
-        words(0) <= key_in(127 downto 96);
-        words(1) <= key_in(95 downto 64);
-        words(2) <= key_in(63 downto 32);
-        words(3) <= key_in(31 downto 0);
-        for i in 1 to (N_ROUNDS) loop
-            words(4*i + 0) <= words(4*(i-1)) xor g_words(i-1);
-            words(4*i + 1) <= words(4*(i-1) + 1) xor words(4*i + 0);
-            words(4*i + 2) <= words(4*(i-1) + 2) xor words(4*i + 1);
-            words(4*i + 3) <= words(4*(i-1) + 3) xor words(4*i + 2);
-        end loop;
-    end process expand_key;
+    -- 02. Connect all the words between them to expand the key
+    words(0) <= key_in(127 downto 96);
+    words(1) <= key_in(95 downto 64);
+    words(2) <= key_in(63 downto 32);
+    words(3) <= key_in(31 downto 0);
 
-    round_keys_concatenation: process(clk_in)
-    begin
-        round_keys_out <= (others => '0');
-        for i in 0 to N_ROUNDS loop
-            round_keys_out((i+1)*32-1 downto i*32) <= words(i); -- Assign each round key to the appropriate slice
-        end loop;
-    end process round_keys_concatenation;
+    CONNECT_WORDS: for i in 1 to (N_ROUNDS) generate
+        words(4*i + 0) <= words(4*(i-1)) xor g_words(i-1);
+        words(4*i + 1) <= words(4*(i-1) + 1) xor words(4*i + 0);
+        words(4*i + 2) <= words(4*(i-1) + 2) xor words(4*i + 1);
+        words(4*i + 3) <= words(4*(i-1) + 3) xor words(4*i + 2);
+    end generate;
+
+    -- 03. Join the words into round_keys_out. Is there a better way of doing this?
+    round_keys_out <=
+        words(0)  & words(1)  & words(2)  & words(3)  &
+        words(4)  & words(5)  & words(6)  & words(7)  &
+        words(8)  & words(9)  & words(10) & words(11) &
+        words(12) & words(13) & words(14) & words(15) &
+        words(16) & words(17) & words(18) & words(19) &
+        words(20) & words(21) & words(22) & words(23) &
+        words(24) & words(25) & words(26) & words(27) &
+        words(28) & words(29) & words(30) & words(31) &
+        words(32) & words(33) & words(34) & words(35) &
+        words(36) & words(37) & words(38) & words(39) &
+        words(40) & words(41) & words(42) & words(43);
 
 end aes_key_expander_arch;
