@@ -5,8 +5,6 @@ use IEEE.numeric_std.all;
 entity aes_key_expander is
     port
     (
-        clk_in : in std_logic; -- Will I need this?
-        rst_in : in std_logic; -- Not implemented. TBD?
         key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
         round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
     );
