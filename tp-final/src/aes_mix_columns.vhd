@@ -16,10 +16,10 @@ architecture aes_mix_columns_arch of aes_mix_columns is
     type matrix is array(15 downto 0) of std_logic_vector(7 downto 0);
 
     -- Intermediate signals used to hold the "results" of the operations.
-    signal matrix_current : matrix;
-    signal original : matrix;
-    signal doubled : matrix;
-    signal tripled : matrix;
+    signal vector_input : matrix;
+    signal times_1 : matrix;
+    signal times_2 : matrix;
+    signal times_3 : matrix;
     signal result : matrix;
 
     component multiply_by_1_2_and_3 is
@@ -35,44 +35,31 @@ architecture aes_mix_columns_arch of aes_mix_columns is
     begin
     -- Descriptive section.
 
-    map_to_matrix: for i in 15 downto 0 generate
-        matrix_current(15-i) <= state_in((8*i)+7 downto (8*i));
+    -- Map the 128-bit plain bus into 16 vectors of 8 bits, and connect these bytes to the multipliers.
+    state_to_matrix: for i in 15 downto 0 generate
+        -- If vector_input = [ab cd 12 34 | ff aa ff bb | ...] then consider:
+        -- [ab cd 12 34] as the first vector (aka vector_input(0), the first element of the array),
+        -- [ff aa ff bb] as the second vector (aka vector_input(1), the second element of the array) and so on.
+        vector_input(15-i) <= state_in((8*i)+7 downto (8*i));
         MULTIPLIER_i: multiply_by_1_2_and_3
         port map
         (
-            byte_in => matrix_current(i),
-            byte_by_1_out => original(i),
-            byte_by_2_out => doubled(i),
-            byte_by_3_out => tripled(i)
+            byte_in => vector_input(i),
+            byte_by_1_out => times_1(i),
+            byte_by_2_out => times_2(i),
+            byte_by_3_out => times_3(i)
         );
     end generate;
 
-    -- TODO: Write me in a more compact way!
+    -- Perform the matrix multiplication by summing up (ie XOR'ing) the coefficients for each element
+    matrix_multiplication: for i in 0 to 3 generate
+        result(i*4 + 0) <= times_2(i*4 + 0) xor times_3(i*4 + 1) xor times_1(i*4 + 2) xor times_1(i*4 + 3); -- Row 0 [2 3 1 1].
+        result(i*4 + 1) <= times_1(i*4 + 0) xor times_2(i*4 + 1) xor times_3(i*4 + 2) xor times_1(i*4 + 3); -- Row 1 [1 2 3 1].
+        result(i*4 + 2) <= times_1(i*4 + 0) xor times_1(i*4 + 1) xor times_2(i*4 + 2) xor times_3(i*4 + 3); -- Row 2 [1 1 2 3].
+        result(i*4 + 3) <= times_3(i*4 + 0) xor times_1(i*4 + 1) xor times_1(i*4 + 2) xor times_2(i*4 + 3); -- Row 3 [3 1 1 2].
+    end generate;
 
-    -- Row 0 [2 3 1 1].
-    result(0) <= doubled(0) xor tripled(1) xor original(2) xor original(3);
-    result(4) <= doubled(4) xor tripled(5) xor original(6) xor original(7);
-    result(8) <= doubled(8) xor tripled(9) xor original(10) xor original(11);
-    result(12) <= doubled(12) xor tripled(13) xor original(14) xor original(15);
-
-    -- Row 1 [1 2 3 1].
-    result(1) <= original(0) xor doubled(1) xor tripled(2) xor original(3);
-    result(5) <= original(4) xor doubled(5) xor tripled(6) xor original(7);
-    result(9) <= original(8) xor doubled(9) xor tripled(10) xor original(11);
-    result(13) <= original(12) xor doubled(13) xor tripled(14) xor original(15);
-
-    -- Row 2 [1 1 2 3].
-    result(2) <= original(0) xor original(1) xor doubled(2) xor tripled(3);
-    result(6) <= original(4) xor original(5) xor doubled(6) xor tripled(7);
-    result(10) <= original(8) xor original(9) xor doubled(10) xor tripled(11);
-    result(14) <= original(12) xor original(13) xor doubled(14) xor tripled(15);
-
-    -- Row 3 [3 1 1 2].
-    result(3) <= tripled(0) xor original(1) xor original(2) xor doubled(3);
-    result(7) <= tripled(4) xor original(5) xor original(6) xor doubled(7);
-    result(11) <= tripled(8) xor original(9) xor original(10) xor doubled(11);
-    result(15) <= tripled(12) xor original(13) xor original(14) xor doubled(15);
-
+    -- Now that we have the results, let's convert the vectors back to a 128-bit bus
     matrix_to_result: for i in 15 downto 0 generate
         result_out(((8*i) + 7) downto (8*i)) <= result(15 - i);
     end generate;
