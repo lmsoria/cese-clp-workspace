@@ -2,8 +2,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity s_box is
-    Port ( byte_in : in std_logic_vector (7 downto 0);
-           byte_out : out std_logic_vector (7 downto 0));
+    port
+    (
+        byte_in : in std_logic_vector (7 downto 0);
+        byte_out : out std_logic_vector (7 downto 0)
+    );
 end s_box;
 
 architecture s_box_arch of s_box is
