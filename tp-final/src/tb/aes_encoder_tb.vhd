@@ -7,19 +7,30 @@ end aes_encoder_tb;
 architecture aes_encoder_arch_tb of aes_encoder_tb is
     -- Declarative section
     component aes_encoder is
-        port
-        (
-            plain_text_in: in std_logic_vector(127 downto 0);
-            key_in: in std_logic_vector(127 downto 0);
-            clk_in: in std_logic;
-            cypher_text_out: out std_logic_vector(127 downto 0)
-        );
+    port
+    (
+        plain_text_in: in std_logic_vector(127 downto 0);
+        key_in: in std_logic_vector(127 downto 0);
+        clk_in: in std_logic;
+        cypher_text_out: out std_logic_vector(127 downto 0)
+    );
+    end component;
+
+    component aes_decoder is
+    port
+    (
+        cypher_text_in: in std_logic_vector(127 downto 0);
+        key_in: in std_logic_vector(127 downto 0);
+        clk_in: in std_logic;
+        plain_text_out: out std_logic_vector(127 downto 0)
+    );
     end component;
 
     signal tb_clk_in: std_logic := '0';
     signal tb_plain_text_in: std_logic_vector(127 downto 0) := (others => '0');
     signal tb_key_in: std_logic_vector(127 downto 0) := (others => '0');
-    signal tb_cypher_text_out: std_logic_vector(127 downto 0);
+    signal tb_cypher_text_inout: std_logic_vector(127 downto 0);
+    signal tb_plain_text_out: std_logic_vector(127 downto 0);
 
 begin
     -- Descriptive section
@@ -36,13 +47,22 @@ begin
         wait; -- Wait indefinitely
     end process stimulus_process;
 
-    AES128: aes_encoder
+    AES128_ENCODER: aes_encoder
     port map
     (
         plain_text_in => tb_plain_text_in,
         key_in => tb_key_in,
         clk_in => tb_clk_in,
-        cypher_text_out => tb_cypher_text_out
+        cypher_text_out => tb_cypher_text_inout
+    );
+
+    AES128_DECODER: aes_decoder
+    port map
+    (
+        cypher_text_in => tb_cypher_text_inout,
+        key_in => tb_key_in,
+        clk_in => tb_clk_in,
+        plain_text_out => tb_plain_text_out
     );
 
 end aes_encoder_arch_tb;
