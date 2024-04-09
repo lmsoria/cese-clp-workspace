@@ -2,13 +2,13 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity aes_encoder is
-    port
-    (
-        plain_text_in: in std_logic_vector(127 downto 0);
-        key_in: in std_logic_vector(127 downto 0);
-        clk_in: in std_logic;
-        cypher_text_out: out std_logic_vector(127 downto 0)
-    );
+port
+(
+    plain_text_in: in std_logic_vector(127 downto 0);
+    key_in: in std_logic_vector(127 downto 0);
+    clk_in: in std_logic;
+    cypher_text_out: out std_logic_vector(127 downto 0)
+);
 end aes_encoder;
 
 architecture aes_encoder_arch of aes_encoder is
@@ -18,36 +18,36 @@ architecture aes_encoder_arch of aes_encoder is
     type key_array is array(0 to 10) of std_logic_vector(127 downto 0);
 
     component aes_key_expander is
-        port
-        (
-            key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
-            round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
-        );
+    port
+    (
+        key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
+        round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
+    );
     end component;
 
     component aes_round is
-        port
-        (
-            state_in: in std_logic_vector(127 downto 0);
-            key_in: in std_logic_vector(127 downto 0);
-            result_out: out std_logic_vector(127 downto 0)
-        );
+    port
+    (
+        state_in: in std_logic_vector(127 downto 0);
+        key_in: in std_logic_vector(127 downto 0);
+        result_out: out std_logic_vector(127 downto 0)
+    );
     end component;
 
     component aes_sub_bytes is
-        port
-        (
-            state_in: in std_logic_vector(127 downto 0);
-            result_out: out std_logic_vector(127 downto 0)
-        );
+    port
+    (
+        state_in: in std_logic_vector(127 downto 0);
+        result_out: out std_logic_vector(127 downto 0)
+    );
     end component;
 
     component aes_shift_rows is
-        port
-        (
-            state_in: in std_logic_vector(127 downto 0);
-            result_out: out std_logic_vector(127 downto 0)
-        );
+    port
+    (
+        state_in: in std_logic_vector(127 downto 0);
+        result_out: out std_logic_vector(127 downto 0)
+    );
     end component;
 
     signal round_keys: std_logic_vector((128*11) - 1 downto 0);

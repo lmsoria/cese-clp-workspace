@@ -2,11 +2,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity multiply_by_11 is
-    port
-    (
-        byte_in : in std_logic_vector (7 downto 0);
-        byte_out : out std_logic_vector (7 downto 0)
-    );
+port
+(
+    byte_in : in std_logic_vector (7 downto 0);
+    byte_out : out std_logic_vector (7 downto 0)
+);
 end multiply_by_11;
 
 architecture multiply_by_11_arch of multiply_by_11 is

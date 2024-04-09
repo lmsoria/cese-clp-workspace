@@ -3,11 +3,11 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity aes_key_expander is
-    port
-    (
-        key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
-        round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
-    );
+port
+(
+    key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
+    round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
+);
 end aes_key_expander;
 
 architecture aes_key_expander_arch of aes_key_expander is
@@ -15,15 +15,15 @@ architecture aes_key_expander_arch of aes_key_expander is
     constant N_ROUNDS : natural := 10;
 
     component g_function_word is
-        generic
-        (
-            N_round : natural := 1
-        );
-        port
-        (
-            word_in : in std_logic_vector(31 downto 0);
-            word_out: out std_logic_vector(31 downto 0)
-        );
+    generic
+    (
+        N_round : natural := 1
+    );
+    port
+    (
+        word_in : in std_logic_vector(31 downto 0);
+        word_out: out std_logic_vector(31 downto 0)
+    );
     end component;
 
     -- We need to generate 44 32-bit keys (4 first words are the the actual key, and the remaining ones are generated)
@@ -40,15 +40,15 @@ begin
     -- 01. Instantiate g_function_word DUTs and connect them
     G_FUNCTIONS: for i in 0 to N_ROUNDS-1 generate
     G_FUNCTION_i: g_function_word
-        generic map
-        (
-            N_round => i + 1
-        )
-        port map
-        (
-            word_in => words(4*i + 3),
-            word_out => g_words(i)
-        );
+    generic map
+    (
+        N_round => i + 1
+    )
+    port map
+    (
+        word_in => words(4*i + 3),
+        word_out => g_words(i)
+    );
     end generate;
 
     -- 02. Connect all the words between them to expand the key

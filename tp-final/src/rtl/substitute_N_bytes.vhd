@@ -2,16 +2,16 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity substitute_N_bytes is
-    generic
-    (
-        N_bytes : natural := 4;
-        inverse: std_logic := '0'
-    );
-    port
-    (
-        data_in: in std_logic_vector((N_bytes * 8 - 1) downto 0);
-        data_out: out std_logic_vector((N_bytes * 8 - 1) downto 0)
-    );
+generic
+(
+    N_bytes : natural := 4;
+    inverse: std_logic := '0'
+);
+port
+(
+    data_in: in std_logic_vector((N_bytes * 8 - 1) downto 0);
+    data_out: out std_logic_vector((N_bytes * 8 - 1) downto 0)
+);
 end substitute_N_bytes;
 
 architecture substitute_N_bytes_arch of substitute_N_bytes is

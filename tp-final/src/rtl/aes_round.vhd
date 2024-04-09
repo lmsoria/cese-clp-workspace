@@ -2,39 +2,39 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity aes_round is
-    port
-    (
-        state_in: in std_logic_vector(127 downto 0);
-        key_in: in std_logic_vector(127 downto 0);
-        result_out: out std_logic_vector(127 downto 0)
-    );
+port
+(
+    state_in: in std_logic_vector(127 downto 0);
+    key_in: in std_logic_vector(127 downto 0);
+    result_out: out std_logic_vector(127 downto 0)
+);
 end aes_round;
 
 architecture aes_round_arch of aes_round is
     -- Declarative section
 
     component aes_sub_bytes is
-        port
-        (
-            state_in: in std_logic_vector(127 downto 0);
-            result_out: out std_logic_vector(127 downto 0)
-        );
+    port
+    (
+        state_in: in std_logic_vector(127 downto 0);
+        result_out: out std_logic_vector(127 downto 0)
+    );
     end component;
 
     component aes_shift_rows is
-        port
-        (
-            state_in: in std_logic_vector(127 downto 0);
-            result_out: out std_logic_vector(127 downto 0)
-        );
+    port
+    (
+        state_in: in std_logic_vector(127 downto 0);
+        result_out: out std_logic_vector(127 downto 0)
+    );
     end component;
 
     component aes_mix_columns is
-        port
-        (
-            state_in: in std_logic_vector(127 downto 0);
-            result_out: out std_logic_vector(127 downto 0)
-        );
+    port
+    (
+        state_in: in std_logic_vector(127 downto 0);
+        result_out: out std_logic_vector(127 downto 0)
+    );
     end component;
 
     signal substituted_bytes: std_logic_vector(127 downto 0);

@@ -11,17 +11,17 @@ architecture substitute_N_bytes_tb_arch of substitute_N_bytes_tb is
     constant N_BYTES_TB : natural :=4;
 
     component substitute_N_bytes is
-        generic
-        (
-            N_bytes : natural := 4;
-            inverse : std_logic := '0'
-        );
+    generic
+    (
+        N_bytes : natural := 4;
+        inverse : std_logic := '0'
+    );
 
-        port
-        (
-            data_in : in std_logic_vector ((N_bytes * 8 - 1) downto 0);
-            data_out : out std_logic_vector ((N_bytes * 8 - 1) downto 0)
-        );
+    port
+    (
+        data_in : in std_logic_vector ((N_bytes * 8 - 1) downto 0);
+        data_out : out std_logic_vector ((N_bytes * 8 - 1) downto 0)
+    );
     end component;
 
     signal tb_data_in: std_logic_vector((N_BYTES_TB*8 - 1) downto 0) := x"00000000";
@@ -32,8 +32,6 @@ architecture substitute_N_bytes_tb_arch of substitute_N_bytes_tb is
     signal counter: unsigned(31 downto 0) := x"00000000";
 
 begin
-    clk <= not clk after 10 ns;
-
     -- Descriptive section
     NORMAL_SUBSTITUTE_N_BYTES: substitute_N_bytes
     generic map
@@ -60,6 +58,8 @@ begin
     );
 
     -- Increment tb_data_in every 20 ns
+    clk <= not clk after 10 ns;
+
     tb_in_process: process(clk)
     begin
         if rising_edge(clk) then

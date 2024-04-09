@@ -8,19 +8,19 @@ end aes_shift_rows_tb;
 architecture aes_shift_rows_tb_arch of aes_shift_rows_tb is
     -- Declarative section
     component aes_shift_rows is
-        port
-        (
-            state_in : in std_logic_vector (127 downto 0);
-            result_out : out std_logic_vector (127 downto 0)
-        );
+    port
+    (
+        state_in : in std_logic_vector (127 downto 0);
+        result_out : out std_logic_vector (127 downto 0)
+    );
     end component;
 
     component aes_inverse_shift_rows is
-        port
-        (
-            state_in : in std_logic_vector (127 downto 0);
-            result_out : out std_logic_vector (127 downto 0)
-        );
+    port
+    (
+        state_in : in std_logic_vector (127 downto 0);
+        result_out : out std_logic_vector (127 downto 0)
+    );
     end component;
 
     signal tb_state_in: std_logic_vector(127 downto 0) := (others => '0');

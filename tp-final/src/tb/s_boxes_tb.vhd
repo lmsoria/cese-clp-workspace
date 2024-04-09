@@ -9,19 +9,19 @@ architecture s_boxes_tb_arq of s_boxes_tb is
     -- Declarative section
 
     component s_box is
-        port
-        (
-            byte_in : in std_logic_vector (7 downto 0);
-            byte_out : out std_logic_vector (7 downto 0)
-        );
+    port
+    (
+        byte_in : in std_logic_vector (7 downto 0);
+        byte_out : out std_logic_vector (7 downto 0)
+    );
     end component;
 
     component inverse_s_box is
-        port
-        (
-            byte_in : in std_logic_vector (7 downto 0);
-            byte_out : out std_logic_vector (7 downto 0)
-        );
+    port
+    (
+        byte_in : in std_logic_vector (7 downto 0);
+        byte_out : out std_logic_vector (7 downto 0)
+    );
     end component;
 
     signal tb_in: std_logic_vector(7 downto 0) := x"00";

@@ -2,11 +2,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity inverse_s_box is
-    port
-    (
-        byte_in : in std_logic_vector (7 downto 0);
-        byte_out : out std_logic_vector (7 downto 0)
-    );
+port
+(
+    byte_in : in std_logic_vector (7 downto 0);
+    byte_out : out std_logic_vector (7 downto 0)
+);
 end inverse_s_box;
 
 architecture inverse_s_box_arch of inverse_s_box is

@@ -2,11 +2,11 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity aes_inverse_shift_rows is
-    port
-    (
-        state_in : in std_logic_vector (127 downto 0);
-        result_out : out std_logic_vector (127 downto 0)
-    );
+port
+(
+    state_in : in std_logic_vector (127 downto 0);
+    result_out : out std_logic_vector (127 downto 0)
+);
 end aes_inverse_shift_rows;
 
 architecture aes_inverse_shift_rows_arch of aes_inverse_shift_rows is

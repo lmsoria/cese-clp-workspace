@@ -2,11 +2,11 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity aes_mix_columns is
-    port
-    (
-        state_in : in std_logic_vector (127 downto 0);
-        result_out : out std_logic_vector (127 downto 0)
-    );
+port
+(
+    state_in : in std_logic_vector (127 downto 0);
+    result_out : out std_logic_vector (127 downto 0)
+);
 end aes_mix_columns;
 
 architecture aes_mix_columns_arch of aes_mix_columns is
@@ -23,13 +23,13 @@ architecture aes_mix_columns_arch of aes_mix_columns is
     signal result : matrix;
 
     component multiply_by_1_2_and_3 is
-        port
-        (
-            byte_in : in std_logic_vector (7 downto 0);
-            byte_by_1_out : out std_logic_vector (7 downto 0);
-            byte_by_2_out : out std_logic_vector (7 downto 0);
-            byte_by_3_out : out std_logic_vector (7 downto 0)
-        );
+    port
+    (
+        byte_in : in std_logic_vector (7 downto 0);
+        byte_by_1_out : out std_logic_vector (7 downto 0);
+        byte_by_2_out : out std_logic_vector (7 downto 0);
+        byte_by_3_out : out std_logic_vector (7 downto 0)
+    );
     end component;
 
     begin

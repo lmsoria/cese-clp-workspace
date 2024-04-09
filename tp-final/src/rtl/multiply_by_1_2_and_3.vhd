@@ -2,13 +2,13 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity multiply_by_1_2_and_3 is
-    port
-    (
-        byte_in : in std_logic_vector (7 downto 0);
-        byte_by_1_out : out std_logic_vector (7 downto 0);
-        byte_by_2_out : out std_logic_vector (7 downto 0);
-        byte_by_3_out : out std_logic_vector (7 downto 0)
-    );
+port
+(
+    byte_in : in std_logic_vector (7 downto 0);
+    byte_by_1_out : out std_logic_vector (7 downto 0);
+    byte_by_2_out : out std_logic_vector (7 downto 0);
+    byte_by_3_out : out std_logic_vector (7 downto 0)
+);
 end multiply_by_1_2_and_3;
 
 

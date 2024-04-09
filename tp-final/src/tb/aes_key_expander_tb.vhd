@@ -12,13 +12,13 @@ architecture aes_key_expander_tb_arch of aes_key_expander_tb is
     constant KEY : std_logic_vector(127 downto 0) := x"2b7e151628aed2a6abf7158809cf4f3c";
 
     component aes_key_expander is
-        port
-        (
-            clk_in : in std_logic;
-            rst_in : in std_logic;
-            key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
-            round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
-        );
+    port
+    (
+        clk_in : in std_logic;
+        rst_in : in std_logic;
+        key_in: in std_logic_vector(127 downto 0);  -- 16 bytes key
+        round_keys_out: out std_logic_vector((128*11) - 1 downto 0) -- We generate 11 round keys as result
+    );
     end component;
 
     signal tb_key: std_logic_vector(127 downto 0) := KEY;
@@ -31,11 +31,11 @@ begin
 
     -- Instantiate g_function_word DUTs and connect them
     DUT: aes_key_expander
-        port map
-        (
-            clk_in => tb_clk,
-            rst_in => tb_rst,
-            key_in => tb_key,
-            round_keys_out => tb_round_keys
-        );
+    port map
+    (
+        clk_in => tb_clk,
+        rst_in => tb_rst,
+        key_in => tb_key,
+        round_keys_out => tb_round_keys
+    );
 end;

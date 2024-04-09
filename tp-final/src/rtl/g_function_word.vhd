@@ -2,15 +2,15 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity g_function_word is
-    generic
-    (
-        N_round : natural := 1
-    );
-    port
-    (
-        word_in : in std_logic_vector(31 downto 0);
-        word_out: out std_logic_vector(31 downto 0)
-    );
+generic
+(
+    N_round : natural := 1
+);
+port
+(
+    word_in : in std_logic_vector(31 downto 0);
+    word_out: out std_logic_vector(31 downto 0)
+);
 end g_function_word;
 
 architecture g_function_word_arch of g_function_word is
@@ -32,16 +32,16 @@ architecture g_function_word_arch of g_function_word is
     );
 
     component substitute_N_bytes is
-        generic
-        (
-            N_bytes : natural := 4;
-            inverse: std_logic := '0'
-        );
-        port
-        (
-            data_in: in std_logic_vector((N_bytes * 8 - 1) downto 0);
-            data_out: out std_logic_vector((N_bytes * 8 - 1) downto 0)
-        );
+    generic
+    (
+        N_bytes : natural := 4;
+        inverse: std_logic := '0'
+    );
+    port
+    (
+        data_in: in std_logic_vector((N_bytes * 8 - 1) downto 0);
+        data_out: out std_logic_vector((N_bytes * 8 - 1) downto 0)
+    );
     end component;
 
     signal rot_word: std_logic_vector(31 downto 0);

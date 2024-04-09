@@ -11,15 +11,15 @@ architecture g_function_word_tb_arch of g_function_word_tb is
     constant N_ROUNDS : natural := 10;
 
     component g_function_word is
-        generic
-        (
-            N_round : natural := 1
-        );
-        port
-        (
-            word_in : in std_logic_vector(31 downto 0);
-            word_out: out std_logic_vector(31 downto 0)
-        );
+    generic
+    (
+        N_round : natural := 1
+    );
+    port
+    (
+        word_in : in std_logic_vector(31 downto 0);
+        word_out: out std_logic_vector(31 downto 0)
+    );
     end component;
 
     signal tb_word_in: std_logic_vector(31 downto 0) := x"abcd1234";
@@ -47,14 +47,14 @@ begin
     -- Instantiate g_function_word DUTs and connect them
     DUTs: for i in 0 to N_ROUNDS-1 generate
         DUT_i: g_function_word
-            generic map
-            (
-                N_round => i + 1
-            )
-            port map
-            (
-                word_in => tb_word_in,
-                word_out => tb_word_outs(i)
-            );
+        generic map
+        (
+            N_round => i + 1
+        )
+        port map
+        (
+            word_in => tb_word_in,
+            word_out => tb_word_outs(i)
+        );
     end generate;
 end;

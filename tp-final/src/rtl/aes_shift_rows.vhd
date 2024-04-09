@@ -2,11 +2,11 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity aes_shift_rows is
-    port
-    (
-        state_in : in std_logic_vector (127 downto 0);
-        result_out : out std_logic_vector (127 downto 0)
-    );
+port
+(
+    state_in : in std_logic_vector (127 downto 0);
+    result_out : out std_logic_vector (127 downto 0)
+);
 end aes_shift_rows;
 
 architecture aes_shift_rows_arch of aes_shift_rows is
@@ -16,7 +16,7 @@ architecture aes_shift_rows_arch of aes_shift_rows is
 
     -- Input, as a 128 bit bus:
     -- +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
-    -- | 00 | 04 | 08 | 0c | 00 | 04 | 08 | 0c | 00 | 04 | 08 | 0c | 00 | 04 | 08 | 0c |
+    -- | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 0a | 0b | 0c | 0d | 0e | 0f |
     -- +----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
 
     -- The same input, but represented in column-major order:
