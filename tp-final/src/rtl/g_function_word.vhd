@@ -1,5 +1,5 @@
 library ieee;
-use ieee.STD_LOGIC_1164.all;
+use ieee.std_logic_1164.all;
 
 entity g_function_word is
 generic
