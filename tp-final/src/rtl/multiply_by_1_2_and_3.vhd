@@ -1,5 +1,5 @@
-library IEEE;
-use IEEE.std_logic_1164.all;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity multiply_by_1_2_and_3 is
 port
