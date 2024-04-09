@@ -15,8 +15,17 @@ architecture aes_shift_rows_tb_arch of aes_shift_rows_tb is
         );
     end component;
 
+    component aes_inverse_shift_rows is
+        port
+        (
+            state_in : in std_logic_vector (127 downto 0);
+            result_out : out std_logic_vector (127 downto 0)
+        );
+    end component;
+
     signal tb_state_in: std_logic_vector(127 downto 0) := (others => '0');
-    signal tb_result_out: std_logic_vector(127 downto 0);
+    signal tb_normal_result_out: std_logic_vector(127 downto 0);
+    signal tb_inverted_result_out: std_logic_vector(127 downto 0);
 
 begin
     -- Descriptive section
@@ -32,10 +41,17 @@ begin
         wait; -- Wait indefinitely
     end process stimulus_process;
 
-    DUT: aes_shift_rows
+    NORMAL_SHIFT_ROWS: aes_shift_rows
     port map
     (
         state_in => tb_state_in,
-        result_out => tb_result_out
+        result_out => tb_normal_result_out
+    );
+
+    INVERTED_SHIFT_ROWS: aes_inverse_shift_rows
+    port map
+    (
+        state_in => tb_state_in,
+        result_out => tb_inverted_result_out
     );
 end aes_shift_rows_tb_arch;
