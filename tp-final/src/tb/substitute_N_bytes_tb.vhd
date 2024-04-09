@@ -13,7 +13,8 @@ architecture substitute_N_bytes_tb_arch of substitute_N_bytes_tb is
     component substitute_N_bytes is
         generic
         (
-            N_bytes : natural := 4
+            N_bytes : natural := 4;
+            inverse : std_logic := '0'
         );
 
         port
@@ -24,7 +25,8 @@ architecture substitute_N_bytes_tb_arch of substitute_N_bytes_tb is
     end component;
 
     signal tb_data_in: std_logic_vector((N_BYTES_TB*8 - 1) downto 0) := x"00000000";
-    signal tb_data_out: std_logic_vector((N_BYTES_TB*8 - 1) downto 0);
+    signal tb_normal_data_out: std_logic_vector((N_BYTES_TB*8 - 1) downto 0);
+    signal tb_inverted_data_out: std_logic_vector((N_BYTES_TB*8 - 1) downto 0);
 
     signal clk: std_logic := '1';
     signal counter: unsigned(31 downto 0) := x"00000000";
@@ -33,16 +35,29 @@ begin
     clk <= not clk after 10 ns;
 
     -- Descriptive section
-    DUT: substitute_N_bytes
-        generic map
-        (
-            N_bytes => N_BYTES_TB
-        )
-        port map
-        (
-            data_in => tb_data_in,
-            data_out => tb_data_out
-        );
+    NORMAL_SUBSTITUTE_N_BYTES: substitute_N_bytes
+    generic map
+    (
+        N_bytes => N_BYTES_TB,
+        inverse => '0'
+    )
+    port map
+    (
+        data_in => tb_data_in,
+        data_out => tb_normal_data_out
+    );
+
+    INVERTED_SUBSTITUTE_N_BYTES: substitute_N_bytes
+    generic map
+    (
+        N_bytes => N_BYTES_TB,
+        inverse => '1'
+    )
+    port map
+    (
+        data_in => tb_data_in,
+        data_out => tb_inverted_data_out
+    );
 
     -- Increment tb_data_in every 20 ns
     tb_in_process: process(clk)

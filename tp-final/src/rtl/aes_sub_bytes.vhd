@@ -14,7 +14,8 @@ architecture aes_sub_bytes_arch of aes_sub_bytes is
     component substitute_N_bytes is
         generic
         (
-            N_bytes : natural := 4
+            N_bytes : natural := 4;
+            inverse: std_logic := '0'
         );
         port
         (
@@ -28,7 +29,8 @@ begin
     SUB_16_BYTES : substitute_N_bytes
     generic map
     (
-        N_bytes => 16
+        N_bytes => 16,
+        inverse => '0'
     )
     port map
     (

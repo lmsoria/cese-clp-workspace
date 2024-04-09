@@ -34,7 +34,8 @@ architecture g_function_word_arch of g_function_word is
     component substitute_N_bytes is
         generic
         (
-            N_bytes : natural := 4
+            N_bytes : natural := 4;
+            inverse: std_logic := '0'
         );
         port
         (
@@ -55,15 +56,16 @@ begin
 
     -- Second step: Substitute each byte with the corresponding S-Box value
     S_BOX : substitute_N_bytes
-        generic map
-        (
-            N_bytes => 4
-        )
-        port map
-        (
-            data_in => rot_word,
-            data_out => sub_word
-        );
+    generic map
+    (
+        N_bytes => 4,
+        inverse => '0'
+    )
+    port map
+    (
+        data_in => rot_word,
+        data_out => sub_word
+    );
 
     -- Third step: Perform a XOR operation with the round constant
     rc_word <= sub_word xor ROUND_CONSTANT(N_round);
