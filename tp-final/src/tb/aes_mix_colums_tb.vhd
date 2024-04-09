@@ -52,7 +52,7 @@ begin
         result_out => tb_normal_result_out
     );
 
-    INVERTED_MIX_COLUMNS: aes_inverse_mix_columns
+    INVERSE_MIX_COLUMNS: aes_inverse_mix_columns
     port map
     (
         state_in => tb_state_in,

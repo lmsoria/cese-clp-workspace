@@ -51,8 +51,8 @@ architecture aes_decoder_arch of aes_decoder is
     end component;
 
     signal round_keys: std_logic_vector((128*11) - 1 downto 0);
-    signal substituted_bytes: std_logic_vector(127 downto 0);
-    signal shifted_rows: std_logic_vector(127 downto 0);
+    signal inverse_substituted_bytes: std_logic_vector(127 downto 0);
+    signal inverse_shifted_rows: std_logic_vector(127 downto 0);
     signal keys : key_array;
     signal round_inputs: round_data;
     signal round_outputs: round_data;
@@ -96,22 +96,22 @@ begin
 
 
     -- 05.01: Inverse Shift rows
-    SHIFT_ROWS : aes_inverse_shift_rows
+    INVERSE_SHIFT_ROWS : aes_inverse_shift_rows
     port map
     (
         state_in => round_outputs(9),
-        result_out => shifted_rows
+        result_out => inverse_shifted_rows
     );
 
     -- 05.02: Inverse Substitute bytes from the last round
-    SUB_BYTES : aes_inverse_sub_bytes
+    INVERSE_SUB_BYTES : aes_inverse_sub_bytes
     port map
     (
-        state_in => shifted_rows,
-        result_out => substituted_bytes
+        state_in => inverse_shifted_rows,
+        result_out => inverse_substituted_bytes
     );
 
     -- 05.03: Add the original key, and with this we have the cypher text!
-    plain_text_out <= substituted_bytes xor keys(0);
+    plain_text_out <= inverse_substituted_bytes xor keys(0);
 
 end aes_decoder_arch;

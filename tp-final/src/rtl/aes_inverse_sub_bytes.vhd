@@ -26,7 +26,7 @@ architecture aes_sub_bytes_arch of aes_inverse_sub_bytes is
 
 begin
     -- Descriptive section.
-    INV_SUB_16_BYTES : substitute_N_bytes
+    INVERSE_SUB_16_BYTES : substitute_N_bytes
     generic map
     (
         N_bytes => 16,

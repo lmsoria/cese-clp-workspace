@@ -47,7 +47,7 @@ begin
         data_out => tb_normal_data_out
     );
 
-    INVERTED_SUBSTITUTE_N_BYTES: substitute_N_bytes
+    INVERSE_SUBSTITUTE_N_BYTES: substitute_N_bytes
     generic map
     (
         N_bytes => N_BYTES_TB,

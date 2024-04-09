@@ -56,7 +56,7 @@ begin
         result_out => tb_normal_result_out
     );
 
-    INVERTED_SHIFT_ROWS: aes_inverse_shift_rows
+    INVERSE_SHIFT_ROWS: aes_inverse_shift_rows
     port map
     (
         state_in => tb_state_in,

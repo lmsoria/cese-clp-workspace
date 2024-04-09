@@ -37,9 +37,9 @@ architecture aes_inverse_round_arch of aes_inverse_round is
     );
     end component;
 
-    signal substituted_bytes: std_logic_vector(127 downto 0);
-    signal shifted_rows: std_logic_vector(127 downto 0);
-    signal mixed_columns: std_logic_vector(127 downto 0);
+    signal inverse_substituted_bytes: std_logic_vector(127 downto 0);
+    signal inverse_shifted_rows: std_logic_vector(127 downto 0);
+    signal inverse_mixed_columns: std_logic_vector(127 downto 0);
     signal added_round_key: std_logic_vector(127 downto 0);
 
 begin
@@ -48,25 +48,25 @@ begin
     port map
     (
         state_in => state_in,
-        result_out => shifted_rows
+        result_out => inverse_shifted_rows
     );
 
     SUB_BYTES : aes_inverse_sub_bytes
     port map
     (
-        state_in => shifted_rows,
-        result_out => substituted_bytes
+        state_in => inverse_shifted_rows,
+        result_out => inverse_substituted_bytes
     );
 
-    added_round_key <= substituted_bytes xor key_in;
+    added_round_key <= inverse_substituted_bytes xor key_in;
 
     MIX_COLUMNS : aes_inverse_mix_columns
     port map
     (
         state_in => added_round_key,
-        result_out => mixed_columns
+        result_out => inverse_mixed_columns
     );
 
-    result_out <= mixed_columns;
+    result_out <= inverse_mixed_columns;
 
 end aes_inverse_round_arch;
