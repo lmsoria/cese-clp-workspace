@@ -24,7 +24,6 @@ architecture tp_final_top_arch of tp_final_top is
     (
         plain_text_in  : in std_logic_vector(127 downto 0);
         key_in         : in std_logic_vector(127 downto 0);
-        clk_in         : in std_logic;
         cypher_text_out: out std_logic_vector(127 downto 0)
     );
     end component;
@@ -34,7 +33,6 @@ architecture tp_final_top_arch of tp_final_top is
     (
         cypher_text_in : in std_logic_vector(127 downto 0);
         key_in         : in std_logic_vector(127 downto 0);
-        clk_in         : in std_logic;
         plain_text_out : out std_logic_vector(127 downto 0)
     );
     end component;
@@ -130,7 +128,6 @@ begin
     (
         plain_text_in   => plain_text_bus_in,
         key_in          => key_bus,
-        clk_in          => clk_pin_in,
         cypher_text_out => cipher_text_bus
     );
 
@@ -139,7 +136,6 @@ begin
     (
         cypher_text_in => cipher_text_bus,
         key_in         => key_bus,
-        clk_in         => clk_pin_in,
         plain_text_out => plain_text_bus_out
     );
 

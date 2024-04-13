@@ -6,7 +6,6 @@ port
 (
     cypher_text_in: in std_logic_vector(127 downto 0);
     key_in: in std_logic_vector(127 downto 0);
-    clk_in: in std_logic;
     plain_text_out: out std_logic_vector(127 downto 0)
 );
 end aes_decoder;
