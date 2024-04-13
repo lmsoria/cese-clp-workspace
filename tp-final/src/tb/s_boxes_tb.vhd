@@ -40,7 +40,7 @@ begin
         byte_out => tb_normal_out
     );
 
-    INVERSE_S_BOX: inverse_s_box
+    INV_S_BOX: inverse_s_box
     port map
     (
         byte_in => tb_in,

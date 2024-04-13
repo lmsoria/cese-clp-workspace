@@ -16,7 +16,7 @@ architecture aes_mix_columns_arch of aes_mix_columns is
     type matrix is array(15 downto 0) of std_logic_vector(7 downto 0);
 
     -- Intermediate signals used to hold the "results" of the operations.
-    signal vector_input : matrix;
+    signal input_vector : matrix;
     signal times_1 : matrix;
     signal times_2 : matrix;
     signal times_3 : matrix;
@@ -37,14 +37,14 @@ architecture aes_mix_columns_arch of aes_mix_columns is
 
     -- Map the 128-bit plain bus into 16 vectors of 8 bits, and connect these bytes to the multipliers.
     state_to_matrix: for i in 15 downto 0 generate
-        -- If vector_input = [ab cd 12 34 | ff aa ff bb | ...] then consider:
-        -- [ab cd 12 34] as the first vector (aka vector_input(0), the first element of the array),
-        -- [ff aa ff bb] as the second vector (aka vector_input(1), the second element of the array) and so on.
-        vector_input(15-i) <= state_in((8*i)+7 downto (8*i));
+        -- If input_vector = [ab cd 12 34 | ff aa ff bb | ...] then consider:
+        -- [ab cd 12 34] as the first vector (aka input_vector(0), the first element of the array),
+        -- [ff aa ff bb] as the second vector (aka input_vector(1), the second element of the array) and so on.
+        input_vector(15-i) <= state_in((8*i)+7 downto (8*i));
         MULTIPLIER_i: multiply_by_1_2_and_3
         port map
         (
-            byte_in => vector_input(i),
+            byte_in  => input_vector(i),
             byte_by_1_out => times_1(i),
             byte_by_2_out => times_2(i),
             byte_by_3_out => times_3(i)
