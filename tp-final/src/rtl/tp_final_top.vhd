@@ -158,7 +158,6 @@ begin
         rx                  => rx_pin_in
     );
 
-
     -- Intermediate buffer for storing bytes received by the UART
     -- Bytes stored in this buffer are immediately retransmitted.
     RX_BUFFER : generic_fifo

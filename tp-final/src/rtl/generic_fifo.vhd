@@ -1,7 +1,7 @@
 library ieee;
-    use ieee.std_logic_1164.all;
-    use ieee.numeric_std.all;
-    use ieee.math_real.all;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.math_real.all;
 
 entity GENERIC_FIFO is
     generic (
@@ -38,7 +38,7 @@ architecture RTL of GENERIC_FIFO is
             return 0;
         else
             return (
-                ((depth) - to_integer(read_pointer)) + 
+                ((depth) - to_integer(read_pointer)) +
                 to_integer(write_pointer)
             );
         end if;
@@ -106,5 +106,5 @@ begin
     end process;
 
     read_data <= fifo_memory(to_integer(read_pointer));
-    
+
 end RTL;
