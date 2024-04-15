@@ -118,7 +118,7 @@ begin
         std_logic_vector(to_unsigned(50, 8)) & -- '2'
         std_logic_vector(to_unsigned(48, 8)) & -- '0'
         std_logic_vector(to_unsigned(50, 8)) & -- '2'
-        std_logic_vector(to_unsigned(51, 8));  -- '3';
+        std_logic_vector(to_unsigned(51, 8));  -- '4';
 
     plain_text_bus_in <= (127 downto 8 => '0') & uart_data_out;
     uart_data_in <= plain_text_bus_out(7 downto 0);
